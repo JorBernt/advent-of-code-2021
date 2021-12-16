@@ -75,7 +75,6 @@ public class PartOne {
                 }
             }
             if (start) start = !start;
-
             n = 0;
 
         }
