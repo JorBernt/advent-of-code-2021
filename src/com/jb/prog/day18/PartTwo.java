@@ -17,7 +17,7 @@ class PartTwo {
         for(String a : fishes) {
             for(String b : fishes) {
                 if(!a.equals(b)) {
-                    SnailFish f = add(parseNumber(new SnailFish(), a), parseNumber(new SnailFish(), b));
+                    Node f = add(parseNumber(new Node(), a), parseNumber(new Node(), b));
                     reduce(f);
                     max = Math.max(max, magnitude(f));
                 }
@@ -27,7 +27,7 @@ class PartTwo {
     }
 
 
-    static long magnitude(SnailFish root) {
+    static long magnitude(Node root) {
         if(root == null) return 0;
         if(root.l == null && root.r == null) {
             return root.val;
@@ -35,7 +35,7 @@ class PartTwo {
         return (magnitude(root.l) * 3) + (magnitude(root.r)  * 2);
     }
 
-    static void print(SnailFish root) {
+    static void print(Node root) {
         if(root == null) {
             return;
         }
@@ -54,18 +54,18 @@ class PartTwo {
 
     }
 
-    static void reduce(SnailFish root) {
+    static void reduce(Node root) {
         while (explode(root, 1)) {}
         boolean b = split(root);
         if(!b) return;
         reduce(root);
     }
 
-    static boolean split(SnailFish root) {
+    static boolean split(Node root) {
         if (root == null) return false;
         if (root.val >= 10) {
-            root.l = new SnailFish(root.val / 2);
-            root.r = new SnailFish((int) Math.ceil(root.val / 2d));
+            root.l = new Node(root.val / 2);
+            root.r = new Node((int) Math.ceil(root.val / 2d));
             root.l.parent = root;
             root.r.parent = root;
             root.val = -1;
@@ -74,15 +74,15 @@ class PartTwo {
         return split(root.l) || split(root.r);
     }
 
-    static boolean explode(SnailFish root, int depth) {
+    static boolean explode(Node root, int depth) {
         if (root == null) return false;
         if (depth > 4 && root.l != null && root.r != null && root.l.val != -1 && root.r.val != -1) {
             if(root.parent.r == root) {
-                SnailFish node = root.parent.l;
+                Node node = root.parent.l;
                 while (node.r != null) node = node.r;
                 node.val += root.l.val;
-                SnailFish par = root.parent;
-                SnailFish cur = root;
+                Node par = root.parent;
+                Node cur = root;
                 while (par != null) {
                     if(par.l == cur) {
                         cur = par.r;
@@ -95,11 +95,11 @@ class PartTwo {
                 }
             }
             else {
-                SnailFish node = root.parent.r;
+                Node node = root.parent.r;
                 while (node.l != null) node = node.l;
                 node.val += root.r.val;
-                SnailFish par = root.parent;
-                SnailFish cur = root;
+                Node par = root.parent;
+                Node cur = root;
                 while (par != null) {
                     if(par.r == cur) {
                         cur = par.l;
@@ -119,14 +119,14 @@ class PartTwo {
         return explode(root.l, depth + 1) || explode(root.r, depth + 1);
     }
 
-    static SnailFish add(SnailFish left, SnailFish right) {
-        SnailFish root = new SnailFish(left, right);
+    static Node add(Node left, Node right) {
+        Node root = new Node(left, right);
         left.parent = root;
         right.parent = root;
         return root;
     }
 
-    static SnailFish parseNumber(SnailFish node, String str) {
+    static Node parseNumber(Node node, String str) {
         if (str.charAt(0) == '[')
             str = str.substring(1, str.length() - 1);
         if (str.charAt(0) == '[') {
@@ -138,20 +138,20 @@ class PartTwo {
                 else if (str.charAt(i) == ']') n--;
                 if (n == 0) {
                     if (b) {
-                        node.l = parseNumber(new SnailFish(), str.substring(0, i + 1));
+                        node.l = parseNumber(new Node(), str.substring(0, i + 1));
                         node.l.parent = node;
                         str = str.substring(i + 2);
                         i = -1;
                         b = false;
                     } else {
-                        node.r = parseNumber(new SnailFish(), str.substring(m));
+                        node.r = parseNumber(new Node(), str.substring(m));
                         node.r.parent = node;
                     }
                 }
             }
         } else if (str.contains(",")) {
-            node.l = parseNumber(new SnailFish(), str.substring(0, str.indexOf(",")));
-            node.r = parseNumber(new SnailFish(), str.substring(str.indexOf(",") + 1));
+            node.l = parseNumber(new Node(), str.substring(0, str.indexOf(",")));
+            node.r = parseNumber(new Node(), str.substring(str.indexOf(",") + 1));
             node.l.parent = node;
             node.r.parent = node;
         } else node.val = Integer.parseInt(str);

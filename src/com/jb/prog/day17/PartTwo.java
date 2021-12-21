@@ -1,20 +1,8 @@
 package com.jb.prog.day17;
 
-record Area(int x1, int x2, int y1, int y2) {
-}
 
-class Probe {
-    int x, y, velX, velY;
 
-    public Probe(int x, int y, int velX, int velY) {
-        this.x = x;
-        this.y = y;
-        this.velX = velX;
-        this.velY = velY;
-    }
-}
-
-class PartOne {
+class PartTwo {
     public static void main(String[] args) {
         Area area = new Area(217, 240, -126, -69);
         Probe probe = new Probe(0, 0, 24, 0);
