@@ -6,7 +6,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class PartTwo {
+public class
+PartTwo {
     public static void main(String[] args) throws FileNotFoundException {
         Scanner in = new Scanner(new FileInputStream("data/day9/input.txt"), StandardCharsets.UTF_8);
         int h = 0;

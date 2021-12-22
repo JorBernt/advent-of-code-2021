@@ -23,8 +23,6 @@ class Node {
         l = left;
         r = right;
     }
-
-
 }
 
 
@@ -71,13 +69,11 @@ class PartOne {
             print(root.r);
             System.out.print("]");
         }
-
     }
 
     static void reduce(Node root) {
         while (explode(root, 1)) {}
-        boolean b = split(root);
-        if(!b) return;
+        if(!split(root)) return;
         reduce(root);
     }
 
